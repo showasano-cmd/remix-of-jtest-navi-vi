@@ -155,7 +155,7 @@ function Index() {
     const jtestNext = eligible.find((e) => e.type === "JTEST") ?? null;
     const jlptNext = eligible.find((e) => e.type === "JLPT") ?? null;
 
-    const fastest =
+    const fastest: "JTEST" | "JLPT" | null =
       jtestNext && jlptNext
         ? jtestNext.date <= jlptNext.date
           ? "JTEST"
