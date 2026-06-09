@@ -222,17 +222,17 @@ function Index() {
             J.TEST VIETNAM
           </div>
           <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            J.TEST<br />目標達成ナビ
+            J.TEST<br />Định Hướng Mục Tiêu
           </h1>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-            留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。
+            Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.
           </p>
           <div className="mt-4 rounded-xl border border-primary/20 bg-primary-soft/60 p-4">
             <p className="text-sm font-semibold text-primary">
-              J.TESTは年6回受験できます（奇数月開催）
+              J.TEST có thể thi 6 lần/năm（tổ chức vào các tháng lẻ）
             </p>
             <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              1月・3月・5月・7月・9月・11月に実施。JLPTの年2回と比べて証明取得の機会が多く、目標期日までの最短ルートになる可能性があります。
+              Tổ chức vào tháng 1・3・5・7・9・11. So với JLPT chỉ 2 lần/năm, J.TEST có nhiều cơ hội lấy chứng chỉ hơn và có thể là lộ trình ngắn nhất đến mục tiêu của bạn.
             </p>
           </div>
         </header>
