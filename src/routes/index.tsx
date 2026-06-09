@@ -242,22 +242,22 @@ function Index() {
             {/* GOAL SELECT */}
             <section className="mb-6">
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                01 目的を選ぶ
+                01 Chọn mục tiêu của bạn
               </h2>
               <div className="grid gap-3">
                 <GoalCard
                   active={goal === "school"}
                   onClick={() => setGoal("school")}
-                  title="日本語学校留学"
-                  badge="J.TEST F級 / JLPT N5"
-                  desc="入学希望月までに必要な日本語証明を取れるか診断"
+                  title="Du học Trường Nhật ngữ"
+                  badge="J.TEST Cấp độ F / JLPT N5"
+                  desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
                 />
                 <GoalCard
                   active={goal === "thpt"}
                   onClick={() => setGoal("thpt")}
-                  title="THPT外国語免除"
-                  badge="J.TEST D級 / JLPT N3"
-                  desc="THPT年度までに免除条件を満たせるか診断"
+                  title="Miễn thi môn Ngoại ngữ THPT"
+                  badge="J.TEST Cấp độ D / JLPT N3"
+                  desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
                 />
               </div>
             </section>
