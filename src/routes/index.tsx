@@ -557,7 +557,7 @@ function Result({
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            診断結果
+            Kết quả đánh giá
           </div>
           <div className="mt-1 text-lg font-bold">{result.targetLabel}</div>
         </div>
@@ -565,31 +565,30 @@ function Result({
           onClick={onReset}
           className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium"
         >
-          やり直す
+          Làm lại
         </button>
       </div>
 
       {/* 01 現在地と残り期間 */}
-      <Section num="01" title="現在地と残り期間">
+      <Section num="01" title="Trình độ hiện tại và thời gian còn lại">
         <div className="grid grid-cols-3 gap-2">
-          <Stat label={remainLabel} value={`${Math.max(result.remaining, 0)}`} unit="ヶ月" />
-          <Stat label="J.TEST機会" value={`${result.jtestCount}`} unit="回" tone="primary" />
-          <Stat label="JLPT機会" value={`${result.jlptCount}`} unit="回" tone="jlpt" />
+          <Stat label={remainLabel} value={`${Math.max(result.remaining, 0)}`} unit="tháng" />
+          <Stat label="Cơ hội thi J.TEST" value={`${result.jtestCount}`} unit="lần" tone="primary" />
+          <Stat label="Cơ hội thi JLPT" value={`${result.jlptCount}`} unit="lần" tone="jlpt" />
         </div>
       </Section>
 
       {/* 02 要件チェック */}
-      <Section num="02" title="要件チェック">
+      <Section num="02" title="Kiểm tra yêu cầu">
         <div className={`rounded-xl border p-4 ${statusColor}`}>
           <div className="text-xs font-bold uppercase tracking-wider">
             {statusLabel}
           </div>
           <p className="mt-2 text-sm font-medium leading-relaxed">
-            {remainLabel}
-            {Math.max(result.remaining, 0)}ヶ月。{fastestText}
+            Còn {Math.max(result.remaining, 0)} tháng. {fastestText}
           </p>
           <p className="mt-2 text-xs leading-relaxed opacity-90">
-            J.TESTは奇数月開催で年6回受験可能。JLPTより早く証明取得できる可能性があります。
+            J.TEST tổ chức vào các tháng lẻ, có thể thi 6 lần/năm. Có thể lấy chứng chỉ sớm hơn JLPT.
           </p>
         </div>
         {prepNote && (
@@ -600,7 +599,7 @@ function Result({
       </Section>
 
       {/* 03 J.TEST vs JLPT */}
-      <Section num="03" title="J.TEST vs JLPT — 最速ルートはどちら？">
+      <Section num="03" title="J.TEST vs JLPT — Lộ trình nào nhanh hơn?">
         <div className="grid gap-3 sm:grid-cols-2">
           <ExamCard
             tone="primary"
@@ -608,7 +607,7 @@ function Result({
             target={result.jtestTargetLabel}
             next={result.jtestNext?.label ?? null}
             isFastest={result.fastest === "JTEST"}
-            desc="年6回・奇数月開催"
+            desc="6 lần/năm・các tháng lẻ"
           />
           <ExamCard
             tone="jlpt"
@@ -616,13 +615,13 @@ function Result({
             target={result.jlptTargetLabel}
             next={result.jlptNext?.label ?? null}
             isFastest={result.fastest === "JLPT"}
-            desc="年2回・7月/12月開催"
+            desc="2 lần/năm・tháng 7/12"
           />
         </div>
       </Section>
 
       {/* 04 タイムライン */}
-      <Section num="04" title="推奨受験スケジュール">
+      <Section num="04" title="Lộ trình thi được khuyến nghị">
         <ol className="relative space-y-3 border-l-2 border-border pl-5">
           {timeline.map((t, i) => (
             <li key={i} className="relative">
@@ -647,7 +646,7 @@ function Result({
       </Section>
 
       {/* 05 アクション */}
-      <Section num="05" title="今すぐ取るべきアクション">
+      <Section num="05" title="Hành động cần thực hiện ngay">
         <ul className="space-y-2">
           {actions.map((a, i) => (
             <li
@@ -666,7 +665,7 @@ function Result({
                     rel="noopener noreferrer"
                     className="mt-3 inline-flex items-center justify-between gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
                   >
-                    <span>PreCheckを受ける</span>
+                    <span>Làm PreCheck ngay</span>
                     <span aria-hidden>→</span>
                   </a>
                 )}
