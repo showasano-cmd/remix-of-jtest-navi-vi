@@ -266,18 +266,18 @@ function Index() {
             {goal && (
               <section className="mb-6">
                 <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  02 現在地を入力
+                  02 Nhập thông tin hiện tại
                 </h2>
                 <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                   {goal === "school" ? (
                     <>
-                      <Label>入学希望年月</Label>
+                      <Label>Tháng/năm nhập học mong muốn</Label>
                       <select
                         className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                         value={schoolMonth}
                         onChange={(e) => setSchoolMonth(e.target.value)}
                       >
-                        <option value="">選択してください</option>
+                        <option value="">Vui lòng chọn</option>
                         {schoolOptions.map((o) => (
                           <option key={o.value} value={o.value}>
                             {o.label}
@@ -285,12 +285,12 @@ function Index() {
                         ))}
                       </select>
 
-                      <Label className="mt-5">現在の日本語レベル</Label>
+                      <Label className="mt-5">Trình độ tiếng Nhật hiện tại</Label>
                       <div className="mt-2 grid gap-2">
                         {[
-                          { v: "have", l: "F級 / N5 取得済み" },
-                          { v: "studying", l: "勉強中（未取得）" },
-                          { v: "none", l: "まだ始めていない" },
+                          { v: "have", l: "Đã đạt Cấp độ F / N5" },
+                          { v: "studying", l: "Đang học（chưa đạt）" },
+                          { v: "none", l: "Chưa bắt đầu học" },
                         ].map((opt) => (
                           <Radio
                             key={opt.v}
@@ -304,13 +304,13 @@ function Index() {
                     </>
                   ) : (
                     <>
-                      <Label>受験予定のTHPT年度</Label>
+                      <Label>Năm thi THPT dự kiến</Label>
                       <select
                         className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                         value={thptYear}
                         onChange={(e) => setThptYear(e.target.value)}
                       >
-                        <option value="">選択してください</option>
+                        <option value="">Vui lòng chọn</option>
                         {thptOptions.map((o) => (
                           <option key={o.value} value={o.value}>
                             {o.label}
@@ -318,13 +318,13 @@ function Index() {
                         ))}
                       </select>
 
-                      <Label className="mt-5">現在の日本語レベル</Label>
+                      <Label className="mt-5">Trình độ tiếng Nhật hiện tại</Label>
                       <div className="mt-2 grid gap-2">
                         {[
-                          { v: "n3", l: "N3 / J.TEST D級以上 取得済み" },
-                          { v: "n4", l: "N4相当（J.TEST C〜D勉強中）" },
-                          { v: "n5", l: "N5相当（J.TEST D〜F）" },
-                          { v: "below", l: "N5未満・ほぼ未学習" },
+                          { v: "n3", l: "Đã đạt N3 / J.TEST Cấp độ D trở lên" },
+                          { v: "n4", l: "Tương đương N4（Đang học J.TEST Cấp độ C〜D）" },
+                          { v: "n5", l: "Tương đương N5（J.TEST Cấp độ D〜F）" },
+                          { v: "below", l: "Dưới N5・hầu như chưa học" },
                         ].map((opt) => (
                           <Radio
                             key={opt.v}
