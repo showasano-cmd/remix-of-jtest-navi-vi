@@ -60,7 +60,8 @@ function buildExams(from: Date, to: Date): ExamOccurrence[] {
         out.push({ type: "JTEST", date: d, label: fmtYM(d) });
     }
     if (m === 7 || m === 12) {
-      const d = new Date(cursor.getFullYear(), cursor.getMonth(), 7);
+      const day = m === 7 ? 6 : 7;
+      const d = new Date(cursor.getFullYear(), cursor.getMonth(), day);
       if (d >= from && d <= to)
         out.push({ type: "JLPT", date: d, label: fmtYM(d) });
     }
@@ -147,9 +148,14 @@ function Index() {
 
     const remaining = diffMonths(now, targetDate);
     const readyDate = addMonths(now, monthsNeeded);
+    const readyMonthStart = new Date(
+      readyDate.getFullYear(),
+      readyDate.getMonth(),
+      1,
+    );
 
     const exams = buildExams(now, targetDate);
-    const eligible = exams.filter((e) => e.date >= readyDate);
+    const eligible = exams.filter((e) => e.date >= readyMonthStart);
     const jtestAll = exams.filter((e) => e.type === "JTEST");
     const jlptAll = exams.filter((e) => e.type === "JLPT");
     const jtestNext = eligible.find((e) => e.type === "JTEST") ?? null;
@@ -172,6 +178,7 @@ function Index() {
 
     return {
       goal,
+      level: (isSchoolGoalLevel()) as SchoolLevel | ThptLevel,
       targetDate,
       targetLabel,
       remaining,
@@ -185,6 +192,10 @@ function Index() {
       fastest,
       status,
     };
+
+    function isSchoolGoalLevel() {
+      return goal === "school" ? schoolLevel : thptLevel;
+    }
   }, [showResult, canDiagnose, goal, schoolMonth, schoolLevel, thptYear, thptLevel, now]);
 
   const reset = () => {
