@@ -92,7 +92,7 @@ function Index() {
       if (d < new Date(min.getFullYear(), min.getMonth(), 1)) continue;
       opts.push({
         value: `${d.getFullYear()}-${m}`,
-        label: `${d.getFullYear()}年${m}月入学`,
+        label: `Nhập học Tháng ${m}/${d.getFullYear()}`,
       });
     }
     return opts;
@@ -105,7 +105,10 @@ function Index() {
       const yr = y + i;
       const target = new Date(yr, 5, 26);
       if (target > now)
-        list.push({ value: String(yr), label: `${yr}年度（${yr}年6月）` });
+        list.push({
+          value: String(yr),
+          label: `Năm thi THPT ${yr}（Tháng 6/${yr}）`,
+        });
     }
     return list.slice(0, 3);
   }, [now]);
