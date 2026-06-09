@@ -45,7 +45,7 @@ function diffMonths(a: Date, b: Date) {
   );
 }
 function fmtYM(d: Date) {
-  return `${d.getFullYear()}年${d.getMonth() + 1}月`;
+  return `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
 }
 
 // Generate J.TEST (odd months, day 15) and JLPT (Jul/Dec, day 7) occurrences within range
