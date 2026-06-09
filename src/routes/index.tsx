@@ -60,7 +60,8 @@ function buildExams(from: Date, to: Date): ExamOccurrence[] {
         out.push({ type: "JTEST", date: d, label: fmtYM(d) });
     }
     if (m === 7 || m === 12) {
-      const d = new Date(cursor.getFullYear(), cursor.getMonth(), 7);
+      const day = m === 7 ? 6 : 7;
+      const d = new Date(cursor.getFullYear(), cursor.getMonth(), day);
       if (d >= from && d <= to)
         out.push({ type: "JLPT", date: d, label: fmtYM(d) });
     }
@@ -147,9 +148,14 @@ function Index() {
 
     const remaining = diffMonths(now, targetDate);
     const readyDate = addMonths(now, monthsNeeded);
+    const readyMonthStart = new Date(
+      readyDate.getFullYear(),
+      readyDate.getMonth(),
+      1,
+    );
 
     const exams = buildExams(now, targetDate);
-    const eligible = exams.filter((e) => e.date >= readyDate);
+    const eligible = exams.filter((e) => e.date >= readyMonthStart);
     const jtestAll = exams.filter((e) => e.type === "JTEST");
     const jlptAll = exams.filter((e) => e.type === "JLPT");
     const jtestNext = eligible.find((e) => e.type === "JTEST") ?? null;
@@ -172,6 +178,7 @@ function Index() {
 
     return {
       goal,
+      level: (isSchoolGoalLevel()) as SchoolLevel | ThptLevel,
       targetDate,
       targetLabel,
       remaining,
@@ -185,6 +192,10 @@ function Index() {
       fastest,
       status,
     };
+
+    function isSchoolGoalLevel() {
+      return goal === "school" ? schoolLevel : thptLevel;
+    }
   }, [showResult, canDiagnose, goal, schoolMonth, schoolLevel, thptYear, thptLevel, now]);
 
   const reset = () => {
@@ -447,6 +458,28 @@ function Result({
   const isSchool = result.goal === "school";
   const remainLabel = isSchool ? "入学まで" : "THPTまで";
 
+  const prepNote: string | null = (() => {
+    if (isSchool) {
+      if (result.level === "studying")
+        return "現在の学習状況を踏まえ、最短でも約2ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+      if (result.level === "none")
+        return "学習開始からの目安として約3ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+      return null;
+    }
+    if (result.level === "n4")
+      return "N4レベルを前提に、約6ヶ月の準備期間を見込んだ受験月を表示しています。より早い受験を検討する場合は、PreCheckで正確な現在地を確認してください。";
+    if (result.level === "n5")
+      return "N5レベルを前提に、約15ヶ月の準備期間が推奨されます。まずはPreCheckで正確な現在地を確認することを強くおすすめします。";
+    if (result.level === "below")
+      return "現在のレベルを前提に、約22ヶ月の準備期間が推奨されます。PreCheckで正確な出発点を確認してください。";
+    return null;
+  })();
+
+  const precheckUrl =
+    isSchool || result.level === "n5" || result.level === "below"
+      ? "https://precheck-fg-01.lovable.app/"
+      : "https://precheck-de-01.lovable.app/";
+
   const statusColor =
     result.status === "ok"
       ? "bg-success-soft text-success border-success/30"
@@ -551,6 +584,11 @@ function Result({
             J.TESTは奇数月開催で年6回受験可能。JLPTより早く証明取得できる可能性があります。
           </p>
         </div>
+        {prepNote && (
+          <div className="mt-3 rounded-xl border border-border bg-muted p-4 text-xs leading-relaxed text-muted-foreground">
+            {prepNote}
+          </div>
+        )}
       </Section>
 
       {/* 03 J.TEST vs JLPT */}
@@ -611,7 +649,20 @@ function Result({
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                 {i + 1}
               </span>
-              <span className="leading-relaxed">{a}</span>
+              <div className="flex-1 leading-relaxed">
+                <span>{a}</span>
+                {i === 0 && (
+                  <a
+                    href={precheckUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center justify-between gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
+                  >
+                    <span>PreCheckを受ける</span>
+                    <span aria-hidden>→</span>
+                  </a>
+                )}
+              </div>
             </li>
           ))}
         </ul>
@@ -624,6 +675,7 @@ function Result({
 function useDummy() {
   return null as null | {
     goal: Goal;
+    level: SchoolLevel | ThptLevel | "";
     targetDate: Date;
     targetLabel: string;
     remaining: number;
