@@ -129,15 +129,15 @@ function Index() {
     if (goal === "school") {
       const [y, m] = schoolMonth.split("-").map(Number);
       targetDate = new Date(y, m - 1, 1);
-      targetLabel = `${y}年${m}月入学`;
+      targetLabel = `Nhập học Tháng ${m}/${y}`;
       monthsNeeded =
         schoolLevel === "have" ? 0 : schoolLevel === "studying" ? 2 : 3;
-      jtestTargetLabel = "J.TEST F級";
+      jtestTargetLabel = "J.TEST Cấp độ F";
       jlptTargetLabel = "JLPT N5";
     } else {
       const y = Number(thptYear);
       targetDate = new Date(y, 5, 26);
-      targetLabel = `${y}年度THPT`;
+      targetLabel = `Năm thi THPT ${y}`;
       monthsNeeded =
         thptLevel === "n3"
           ? 0
@@ -146,7 +146,7 @@ function Index() {
           : thptLevel === "n5"
           ? 15
           : 22;
-      jtestTargetLabel = "J.TEST D級";
+      jtestTargetLabel = "J.TEST Cấp độ D";
       jlptTargetLabel = "JLPT N3";
     }
 
