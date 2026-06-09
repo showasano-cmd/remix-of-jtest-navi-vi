@@ -460,22 +460,22 @@ function Result({
   onReset: () => void;
 }) {
   const isSchool = result.goal === "school";
-  const remainLabel = isSchool ? "入学まで" : "THPTまで";
+  const remainLabel = isSchool ? "Đến ngày nhập học" : "Đến kỳ thi THPT";
 
   const prepNote: string | null = (() => {
     if (isSchool) {
       if (result.level === "studying")
-        return "現在の学習状況を踏まえ、最短でも約2ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+        return "Dựa trên tình trạng học tập hiện tại, chúng tôi hiển thị tháng thi với thời gian chuẩn bị tối thiểu khoảng 2 tháng. Nếu muốn thi sớm hơn, hãy xác nhận trình độ hiện tại qua PreCheck.";
       if (result.level === "none")
-        return "学習開始からの目安として約3ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+        return "Chúng tôi hiển thị tháng thi sớm nhất với thời gian học khuyến nghị 3 tháng. Nếu muốn thi ngay, hãy xác nhận trình độ hiện tại qua PreCheck.";
       return null;
     }
     if (result.level === "n4")
-      return "N4レベルを前提に、約6ヶ月の準備期間を見込んだ受験月を表示しています。より早い受験を検討する場合は、PreCheckで正確な現在地を確認してください。";
+      return "Dựa trên trình độ N4, chúng tôi hiển thị tháng thi với thời gian chuẩn bị khoảng 6 tháng. Nếu muốn thi sớm hơn, hãy xác nhận trình độ chính xác qua PreCheck.";
     if (result.level === "n5")
-      return "N5レベルを前提に、約15ヶ月の準備期間が推奨されます。まずはPreCheckで正確な現在地を確認することを強くおすすめします。";
+      return "Dựa trên trình độ hiện tại, thời gian chuẩn bị khuyến nghị là khoảng 15 tháng. Hãy xác nhận trình độ chính xác của bạn qua PreCheck.";
     if (result.level === "below")
-      return "現在のレベルを前提に、約22ヶ月の準備期間が推奨されます。PreCheckで正確な出発点を確認してください。";
+      return "Dựa trên trình độ hiện tại, thời gian chuẩn bị khuyến nghị là khoảng 22 tháng. Hãy xác nhận trình độ chính xác của bạn qua PreCheck.";
     return null;
   })();
 
@@ -492,14 +492,18 @@ function Result({
       : "bg-danger-soft text-danger border-danger/30";
 
   const statusLabel =
-    result.status === "ok" ? "達成可能" : result.status === "warn" ? "注意" : "危険";
+    result.status === "ok"
+      ? "Có thể đạt được"
+      : result.status === "warn"
+      ? "Chú ý"
+      : "Nguy hiểm";
 
   const fastestText =
     result.fastest === "JTEST"
-      ? `最速ルートはJ.TEST（${result.jtestNext?.label}）です。`
+      ? `Lộ trình nhanh nhất là J.TEST（${result.jtestNext?.label}）.`
       : result.fastest === "JLPT"
-      ? `最速ルートはJLPT（${result.jlptNext?.label}）です。`
-      : "目標期日前に間に合う受験機会がありません。期日の見直しを推奨します。";
+      ? `Lộ trình nhanh nhất là JLPT（${result.jlptNext?.label}）.`
+      : "Không còn cơ hội thi kịp trước thời hạn mục tiêu. Khuyến nghị xem xét lại thời hạn.";
 
   // Build timeline
   const timeline: { date: string; text: string; highlight?: boolean }[] = [];
