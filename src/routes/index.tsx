@@ -507,49 +507,49 @@ function Result({
 
   // Build timeline
   const timeline: { date: string; text: string; highlight?: boolean }[] = [];
-  timeline.push({ date: "現在", text: "学習開始" });
-  timeline.push({ date: "現在", text: "PreCheck受験" });
+  timeline.push({ date: "Hiện tại", text: "Bắt đầu học" });
+  timeline.push({ date: "Hiện tại", text: "Làm PreCheck" });
   const fastestExam =
     result.fastest === "JTEST" ? result.jtestNext : result.jlptNext;
   if (fastestExam) {
     timeline.push({
       date: fastestExam.label,
-      text: `${fastestExam.type === "JTEST" ? result.jtestTargetLabel : result.jlptTargetLabel}受験（目標達成）`,
+      text: `Thi ${fastestExam.type === "JTEST" ? result.jtestTargetLabel : result.jlptTargetLabel}（Đạt mục tiêu）`,
       highlight: true,
     });
   }
   if (isSchool && fastestExam) {
     timeline.push({
       date: fmtYM(addMonths(fastestExam.date, 1)),
-      text: "出願・書類準備開始",
+      text: "Bắt đầu chuẩn bị hồ sơ đăng ký",
     });
-    timeline.push({ date: result.targetLabel, text: "入学" });
+    timeline.push({ date: result.targetLabel, text: "Nhập học" });
   } else if (!isSchool && fastestExam) {
     timeline.push({
       date: fmtYM(new Date(result.targetDate.getFullYear(), 3, 1)),
-      text: "THPT免除申請書類の準備",
+      text: "Chuẩn bị hồ sơ xin miễn thi THPT",
     });
-    timeline.push({ date: fmtYM(result.targetDate), text: "THPT試験" });
+    timeline.push({ date: fmtYM(result.targetDate), text: "Kỳ thi THPT" });
   }
 
   const actions: string[] = isSchool
     ? [
-        "まずPreCheckで現在の日本語レベルを確認する",
+        "Trước tiên, xác nhận trình độ tiếng Nhật hiện tại qua PreCheck",
         result.fastest === "JTEST"
-          ? `最速ルート：J.TEST F級（${result.jtestNext?.label}）の申込みを今すぐ行う`
+          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ F（${result.jtestNext?.label}）ngay bây giờ`
           : result.fastest === "JLPT"
-          ? `最速ルート：JLPT N5（${result.jlptNext?.label}）の申込みを今すぐ行う`
-          : "目標期日を1サイクル後ろに見直すことを検討する",
-        "入学希望校に出願スケジュールを確認し、必要書類を早めに準備する",
+          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N5（${result.jlptNext?.label}）ngay bây giờ`
+          : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ",
+        "Xác nhận lịch đăng ký với trường mong muốn và chuẩn bị hồ sơ cần thiết sớm",
       ]
     : [
-        "まずPreCheckで現在地を確認し、D級/N3までの学習プランを確定させる",
+        "Trước tiên, xác nhận trình độ hiện tại qua PreCheck và lập kế hoạch học đến Cấp độ D/N3",
         result.fastest === "JTEST"
-          ? `最速ルート：J.TEST D級（${result.jtestNext?.label}）の申込みを今すぐ行う`
+          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ D（${result.jtestNext?.label}）ngay bây giờ`
           : result.fastest === "JLPT"
-          ? `最速ルート：JLPT N3（${result.jlptNext?.label}）の申込みを今すぐ行う`
-          : "学習開始時期と目標年度の見直しを行う",
-        "J.TEST D級はTHPT外国語免除条件として使用できる",
+          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N3（${result.jlptNext?.label}）ngay bây giờ`
+          : "Xem xét lại thời điểm bắt đầu học và năm mục tiêu",
+        "J.TEST Cấp độ D có thể dùng làm điều kiện miễn thi môn Ngoại ngữ THPT",
       ];
 
   return (
