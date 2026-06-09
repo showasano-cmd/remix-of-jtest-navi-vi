@@ -4,18 +4,19 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "J.TEST 目標達成ナビ" },
+      { title: "J.TEST - Định Hướng Mục Tiêu" },
       {
         name: "description",
         content:
-          "留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。",
+          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
       },
-      { property: "og:title", content: "J.TEST 目標達成ナビ" },
+      { property: "og:title", content: "J.TEST - Định Hướng Mục Tiêu" },
       {
         property: "og:description",
         content:
-          "留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。",
+          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
       },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: Index,
@@ -44,7 +45,7 @@ function diffMonths(a: Date, b: Date) {
   );
 }
 function fmtYM(d: Date) {
-  return `${d.getFullYear()}年${d.getMonth() + 1}月`;
+  return `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
 }
 
 // Generate J.TEST (odd months, day 15) and JLPT (Jul/Dec, day 7) occurrences within range
@@ -91,7 +92,7 @@ function Index() {
       if (d < new Date(min.getFullYear(), min.getMonth(), 1)) continue;
       opts.push({
         value: `${d.getFullYear()}-${m}`,
-        label: `${d.getFullYear()}年${m}月入学`,
+        label: `Nhập học Tháng ${m}/${d.getFullYear()}`,
       });
     }
     return opts;
@@ -104,7 +105,10 @@ function Index() {
       const yr = y + i;
       const target = new Date(yr, 5, 26);
       if (target > now)
-        list.push({ value: String(yr), label: `${yr}年度（${yr}年6月）` });
+        list.push({
+          value: String(yr),
+          label: `Năm thi THPT ${yr}（Tháng 6/${yr}）`,
+        });
     }
     return list.slice(0, 3);
   }, [now]);
@@ -125,15 +129,15 @@ function Index() {
     if (goal === "school") {
       const [y, m] = schoolMonth.split("-").map(Number);
       targetDate = new Date(y, m - 1, 1);
-      targetLabel = `${y}年${m}月入学`;
+      targetLabel = `Nhập học Tháng ${m}/${y}`;
       monthsNeeded =
         schoolLevel === "have" ? 0 : schoolLevel === "studying" ? 2 : 3;
-      jtestTargetLabel = "J.TEST F級";
+      jtestTargetLabel = "J.TEST Cấp độ F";
       jlptTargetLabel = "JLPT N5";
     } else {
       const y = Number(thptYear);
       targetDate = new Date(y, 5, 26);
-      targetLabel = `${y}年度THPT`;
+      targetLabel = `Năm thi THPT ${y}`;
       monthsNeeded =
         thptLevel === "n3"
           ? 0
@@ -142,7 +146,7 @@ function Index() {
           : thptLevel === "n5"
           ? 15
           : 22;
-      jtestTargetLabel = "J.TEST D級";
+      jtestTargetLabel = "J.TEST Cấp độ D";
       jlptTargetLabel = "JLPT N3";
     }
 
@@ -218,17 +222,17 @@ function Index() {
             J.TEST VIETNAM
           </div>
           <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            J.TEST<br />目標達成ナビ
+            J.TEST<br />Định Hướng Mục Tiêu
           </h1>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-            留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。
+            Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.
           </p>
           <div className="mt-4 rounded-xl border border-primary/20 bg-primary-soft/60 p-4">
             <p className="text-sm font-semibold text-primary">
-              J.TESTは年6回受験できます（奇数月開催）
+              J.TEST có thể thi 6 lần/năm（tổ chức vào các tháng lẻ）
             </p>
             <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              1月・3月・5月・7月・9月・11月に実施。JLPTの年2回と比べて証明取得の機会が多く、目標期日までの最短ルートになる可能性があります。
+              Tổ chức vào tháng 1・3・5・7・9・11. So với JLPT chỉ 2 lần/năm, J.TEST có nhiều cơ hội lấy chứng chỉ hơn và có thể là lộ trình ngắn nhất đến mục tiêu của bạn.
             </p>
           </div>
         </header>
@@ -238,22 +242,22 @@ function Index() {
             {/* GOAL SELECT */}
             <section className="mb-6">
               <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                01 目的を選ぶ
+                01 Chọn mục tiêu của bạn
               </h2>
               <div className="grid gap-3">
                 <GoalCard
                   active={goal === "school"}
                   onClick={() => setGoal("school")}
-                  title="日本語学校留学"
-                  badge="J.TEST F級 / JLPT N5"
-                  desc="入学希望月までに必要な日本語証明を取れるか診断"
+                  title="Du học Trường Nhật ngữ"
+                  badge="J.TEST Cấp độ F / JLPT N5"
+                  desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
                 />
                 <GoalCard
                   active={goal === "thpt"}
                   onClick={() => setGoal("thpt")}
-                  title="THPT外国語免除"
-                  badge="J.TEST D級 / JLPT N3"
-                  desc="THPT年度までに免除条件を満たせるか診断"
+                  title="Miễn thi môn Ngoại ngữ THPT"
+                  badge="J.TEST Cấp độ D / JLPT N3"
+                  desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
                 />
               </div>
             </section>
@@ -262,18 +266,18 @@ function Index() {
             {goal && (
               <section className="mb-6">
                 <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  02 現在地を入力
+                  02 Nhập thông tin hiện tại
                 </h2>
                 <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                   {goal === "school" ? (
                     <>
-                      <Label>入学希望年月</Label>
+                      <Label>Tháng/năm nhập học mong muốn</Label>
                       <select
                         className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                         value={schoolMonth}
                         onChange={(e) => setSchoolMonth(e.target.value)}
                       >
-                        <option value="">選択してください</option>
+                        <option value="">Vui lòng chọn</option>
                         {schoolOptions.map((o) => (
                           <option key={o.value} value={o.value}>
                             {o.label}
@@ -281,12 +285,12 @@ function Index() {
                         ))}
                       </select>
 
-                      <Label className="mt-5">現在の日本語レベル</Label>
+                      <Label className="mt-5">Trình độ tiếng Nhật hiện tại</Label>
                       <div className="mt-2 grid gap-2">
                         {[
-                          { v: "have", l: "F級 / N5 取得済み" },
-                          { v: "studying", l: "勉強中（未取得）" },
-                          { v: "none", l: "まだ始めていない" },
+                          { v: "have", l: "Đã đạt Cấp độ F / N5" },
+                          { v: "studying", l: "Đang học（chưa đạt）" },
+                          { v: "none", l: "Chưa bắt đầu học" },
                         ].map((opt) => (
                           <Radio
                             key={opt.v}
@@ -300,13 +304,13 @@ function Index() {
                     </>
                   ) : (
                     <>
-                      <Label>受験予定のTHPT年度</Label>
+                      <Label>Năm thi THPT dự kiến</Label>
                       <select
                         className="mt-2 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                         value={thptYear}
                         onChange={(e) => setThptYear(e.target.value)}
                       >
-                        <option value="">選択してください</option>
+                        <option value="">Vui lòng chọn</option>
                         {thptOptions.map((o) => (
                           <option key={o.value} value={o.value}>
                             {o.label}
@@ -314,13 +318,13 @@ function Index() {
                         ))}
                       </select>
 
-                      <Label className="mt-5">現在の日本語レベル</Label>
+                      <Label className="mt-5">Trình độ tiếng Nhật hiện tại</Label>
                       <div className="mt-2 grid gap-2">
                         {[
-                          { v: "n3", l: "N3 / J.TEST D級以上 取得済み" },
-                          { v: "n4", l: "N4相当（J.TEST C〜D勉強中）" },
-                          { v: "n5", l: "N5相当（J.TEST D〜F）" },
-                          { v: "below", l: "N5未満・ほぼ未学習" },
+                          { v: "n3", l: "Đã đạt N3 / J.TEST Cấp độ D trở lên" },
+                          { v: "n4", l: "Tương đương N4（Đang học J.TEST Cấp độ C〜D）" },
+                          { v: "n5", l: "Tương đương N5（J.TEST Cấp độ D〜F）" },
+                          { v: "below", l: "Dưới N5・hầu như chưa học" },
                         ].map((opt) => (
                           <Radio
                             key={opt.v}
@@ -348,7 +352,7 @@ function Index() {
               }}
               className="w-full rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-primary-foreground shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
-              診断する
+              Kiểm tra ngay
             </button>
           </>
         )}
@@ -456,22 +460,22 @@ function Result({
   onReset: () => void;
 }) {
   const isSchool = result.goal === "school";
-  const remainLabel = isSchool ? "入学まで" : "THPTまで";
+  const remainLabel = isSchool ? "Đến ngày nhập học" : "Đến kỳ thi THPT";
 
   const prepNote: string | null = (() => {
     if (isSchool) {
       if (result.level === "studying")
-        return "現在の学習状況を踏まえ、最短でも約2ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+        return "Dựa trên tình trạng học tập hiện tại, chúng tôi hiển thị tháng thi với thời gian chuẩn bị tối thiểu khoảng 2 tháng. Nếu muốn thi sớm hơn, hãy xác nhận trình độ hiện tại qua PreCheck.";
       if (result.level === "none")
-        return "学習開始からの目安として約3ヶ月の準備期間を見込んだ受験月を表示しています。もっと早い受験を検討したい場合は、PreCheckで現在のレベルを確認してください。";
+        return "Chúng tôi hiển thị tháng thi sớm nhất với thời gian học khuyến nghị 3 tháng. Nếu muốn thi ngay, hãy xác nhận trình độ hiện tại qua PreCheck.";
       return null;
     }
     if (result.level === "n4")
-      return "N4レベルを前提に、約6ヶ月の準備期間を見込んだ受験月を表示しています。より早い受験を検討する場合は、PreCheckで正確な現在地を確認してください。";
+      return "Dựa trên trình độ N4, chúng tôi hiển thị tháng thi với thời gian chuẩn bị khoảng 6 tháng. Nếu muốn thi sớm hơn, hãy xác nhận trình độ chính xác qua PreCheck.";
     if (result.level === "n5")
-      return "N5レベルを前提に、約15ヶ月の準備期間が推奨されます。まずはPreCheckで正確な現在地を確認することを強くおすすめします。";
+      return "Dựa trên trình độ hiện tại, thời gian chuẩn bị khuyến nghị là khoảng 15 tháng. Hãy xác nhận trình độ chính xác của bạn qua PreCheck.";
     if (result.level === "below")
-      return "現在のレベルを前提に、約22ヶ月の準備期間が推奨されます。PreCheckで正確な出発点を確認してください。";
+      return "Dựa trên trình độ hiện tại, thời gian chuẩn bị khuyến nghị là khoảng 22 tháng. Hãy xác nhận trình độ chính xác của bạn qua PreCheck.";
     return null;
   })();
 
@@ -488,60 +492,64 @@ function Result({
       : "bg-danger-soft text-danger border-danger/30";
 
   const statusLabel =
-    result.status === "ok" ? "達成可能" : result.status === "warn" ? "注意" : "危険";
+    result.status === "ok"
+      ? "Có thể đạt được"
+      : result.status === "warn"
+      ? "Chú ý"
+      : "Nguy hiểm";
 
   const fastestText =
     result.fastest === "JTEST"
-      ? `最速ルートはJ.TEST（${result.jtestNext?.label}）です。`
+      ? `Lộ trình nhanh nhất là J.TEST（${result.jtestNext?.label}）.`
       : result.fastest === "JLPT"
-      ? `最速ルートはJLPT（${result.jlptNext?.label}）です。`
-      : "目標期日前に間に合う受験機会がありません。期日の見直しを推奨します。";
+      ? `Lộ trình nhanh nhất là JLPT（${result.jlptNext?.label}）.`
+      : "Không còn cơ hội thi kịp trước thời hạn mục tiêu. Khuyến nghị xem xét lại thời hạn.";
 
   // Build timeline
   const timeline: { date: string; text: string; highlight?: boolean }[] = [];
-  timeline.push({ date: "現在", text: "学習開始" });
-  timeline.push({ date: "現在", text: "PreCheck受験" });
+  timeline.push({ date: "Hiện tại", text: "Bắt đầu học" });
+  timeline.push({ date: "Hiện tại", text: "Làm PreCheck" });
   const fastestExam =
     result.fastest === "JTEST" ? result.jtestNext : result.jlptNext;
   if (fastestExam) {
     timeline.push({
       date: fastestExam.label,
-      text: `${fastestExam.type === "JTEST" ? result.jtestTargetLabel : result.jlptTargetLabel}受験（目標達成）`,
+      text: `Thi ${fastestExam.type === "JTEST" ? result.jtestTargetLabel : result.jlptTargetLabel}（Đạt mục tiêu）`,
       highlight: true,
     });
   }
   if (isSchool && fastestExam) {
     timeline.push({
       date: fmtYM(addMonths(fastestExam.date, 1)),
-      text: "出願・書類準備開始",
+      text: "Bắt đầu chuẩn bị hồ sơ đăng ký",
     });
-    timeline.push({ date: result.targetLabel, text: "入学" });
+    timeline.push({ date: result.targetLabel, text: "Nhập học" });
   } else if (!isSchool && fastestExam) {
     timeline.push({
       date: fmtYM(new Date(result.targetDate.getFullYear(), 3, 1)),
-      text: "THPT免除申請書類の準備",
+      text: "Chuẩn bị hồ sơ xin miễn thi THPT",
     });
-    timeline.push({ date: fmtYM(result.targetDate), text: "THPT試験" });
+    timeline.push({ date: fmtYM(result.targetDate), text: "Kỳ thi THPT" });
   }
 
   const actions: string[] = isSchool
     ? [
-        "まずPreCheckで現在の日本語レベルを確認する",
+        "Trước tiên, xác nhận trình độ tiếng Nhật hiện tại qua PreCheck",
         result.fastest === "JTEST"
-          ? `最速ルート：J.TEST F級（${result.jtestNext?.label}）の申込みを今すぐ行う`
+          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ F（${result.jtestNext?.label}）ngay bây giờ`
           : result.fastest === "JLPT"
-          ? `最速ルート：JLPT N5（${result.jlptNext?.label}）の申込みを今すぐ行う`
-          : "目標期日を1サイクル後ろに見直すことを検討する",
-        "入学希望校に出願スケジュールを確認し、必要書類を早めに準備する",
+          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N5（${result.jlptNext?.label}）ngay bây giờ`
+          : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ",
+        "Xác nhận lịch đăng ký với trường mong muốn và chuẩn bị hồ sơ cần thiết sớm",
       ]
     : [
-        "まずPreCheckで現在地を確認し、D級/N3までの学習プランを確定させる",
+        "Trước tiên, xác nhận trình độ hiện tại qua PreCheck và lập kế hoạch học đến Cấp độ D/N3",
         result.fastest === "JTEST"
-          ? `最速ルート：J.TEST D級（${result.jtestNext?.label}）の申込みを今すぐ行う`
+          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ D（${result.jtestNext?.label}）ngay bây giờ`
           : result.fastest === "JLPT"
-          ? `最速ルート：JLPT N3（${result.jlptNext?.label}）の申込みを今すぐ行う`
-          : "学習開始時期と目標年度の見直しを行う",
-        "J.TEST D級はTHPT外国語免除条件として使用できる",
+          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N3（${result.jlptNext?.label}）ngay bây giờ`
+          : "Xem xét lại thời điểm bắt đầu học và năm mục tiêu",
+        "J.TEST Cấp độ D có thể dùng làm điều kiện miễn thi môn Ngoại ngữ THPT",
       ];
 
   return (
@@ -549,7 +557,7 @@ function Result({
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            診断結果
+            Kết quả đánh giá
           </div>
           <div className="mt-1 text-lg font-bold">{result.targetLabel}</div>
         </div>
@@ -557,31 +565,30 @@ function Result({
           onClick={onReset}
           className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium"
         >
-          やり直す
+          Làm lại
         </button>
       </div>
 
       {/* 01 現在地と残り期間 */}
-      <Section num="01" title="現在地と残り期間">
+      <Section num="01" title="Trình độ hiện tại và thời gian còn lại">
         <div className="grid grid-cols-3 gap-2">
-          <Stat label={remainLabel} value={`${Math.max(result.remaining, 0)}`} unit="ヶ月" />
-          <Stat label="J.TEST機会" value={`${result.jtestCount}`} unit="回" tone="primary" />
-          <Stat label="JLPT機会" value={`${result.jlptCount}`} unit="回" tone="jlpt" />
+          <Stat label={remainLabel} value={`${Math.max(result.remaining, 0)}`} unit="tháng" />
+          <Stat label="Cơ hội thi J.TEST" value={`${result.jtestCount}`} unit="lần" tone="primary" />
+          <Stat label="Cơ hội thi JLPT" value={`${result.jlptCount}`} unit="lần" tone="jlpt" />
         </div>
       </Section>
 
       {/* 02 要件チェック */}
-      <Section num="02" title="要件チェック">
+      <Section num="02" title="Kiểm tra yêu cầu">
         <div className={`rounded-xl border p-4 ${statusColor}`}>
           <div className="text-xs font-bold uppercase tracking-wider">
             {statusLabel}
           </div>
           <p className="mt-2 text-sm font-medium leading-relaxed">
-            {remainLabel}
-            {Math.max(result.remaining, 0)}ヶ月。{fastestText}
+            Còn {Math.max(result.remaining, 0)} tháng. {fastestText}
           </p>
           <p className="mt-2 text-xs leading-relaxed opacity-90">
-            J.TESTは奇数月開催で年6回受験可能。JLPTより早く証明取得できる可能性があります。
+            J.TEST tổ chức vào các tháng lẻ, có thể thi 6 lần/năm. Có thể lấy chứng chỉ sớm hơn JLPT.
           </p>
         </div>
         {prepNote && (
@@ -592,7 +599,7 @@ function Result({
       </Section>
 
       {/* 03 J.TEST vs JLPT */}
-      <Section num="03" title="J.TEST vs JLPT — 最速ルートはどちら？">
+      <Section num="03" title="J.TEST vs JLPT — Lộ trình nào nhanh hơn?">
         <div className="grid gap-3 sm:grid-cols-2">
           <ExamCard
             tone="primary"
@@ -600,7 +607,7 @@ function Result({
             target={result.jtestTargetLabel}
             next={result.jtestNext?.label ?? null}
             isFastest={result.fastest === "JTEST"}
-            desc="年6回・奇数月開催"
+            desc="6 lần/năm・các tháng lẻ"
           />
           <ExamCard
             tone="jlpt"
@@ -608,13 +615,13 @@ function Result({
             target={result.jlptTargetLabel}
             next={result.jlptNext?.label ?? null}
             isFastest={result.fastest === "JLPT"}
-            desc="年2回・7月/12月開催"
+            desc="2 lần/năm・tháng 7/12"
           />
         </div>
       </Section>
 
       {/* 04 タイムライン */}
-      <Section num="04" title="推奨受験スケジュール">
+      <Section num="04" title="Lộ trình thi được khuyến nghị">
         <ol className="relative space-y-3 border-l-2 border-border pl-5">
           {timeline.map((t, i) => (
             <li key={i} className="relative">
@@ -639,7 +646,7 @@ function Result({
       </Section>
 
       {/* 05 アクション */}
-      <Section num="05" title="今すぐ取るべきアクション">
+      <Section num="05" title="Hành động cần thực hiện ngay">
         <ul className="space-y-2">
           {actions.map((a, i) => (
             <li
@@ -658,7 +665,7 @@ function Result({
                     rel="noopener noreferrer"
                     className="mt-3 inline-flex items-center justify-between gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
                   >
-                    <span>PreCheckを受ける</span>
+                    <span>Làm PreCheck ngay</span>
                     <span aria-hidden>→</span>
                   </a>
                 )}
@@ -771,7 +778,7 @@ function ExamCard({
     <div className={`relative rounded-2xl border-2 p-4 ${cls}`}>
       {isFastest && (
         <span className="absolute -top-2 right-3 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow">
-          最速
+          Nhanh nhất
         </span>
       )}
       <div className={`text-xs font-bold uppercase tracking-wider ${accent}`}>
@@ -779,10 +786,10 @@ function ExamCard({
       </div>
       <div className="mt-1 text-sm font-semibold">{target}</div>
       <div className="mt-3 text-[11px] font-medium text-muted-foreground">
-        次に受験できる最速月
+        Tháng thi sớm nhất có thể tham gia
       </div>
       <div className={`mt-0.5 text-xl font-bold ${accent}`}>
-        {next ?? "機会なし"}
+        {next ?? "Không có cơ hội"}
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         {desc}
