@@ -4,18 +4,19 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "J.TEST 目標達成ナビ" },
+      { title: "J.TEST - Định Hướng Mục Tiêu" },
       {
         name: "description",
         content:
-          "留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。",
+          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
       },
-      { property: "og:title", content: "J.TEST 目標達成ナビ" },
+      { property: "og:title", content: "J.TEST - Định Hướng Mục Tiêu" },
       {
         property: "og:description",
         content:
-          "留学・THPT外国語免除に必要な日本語証明を、いつ・どの試験で取得すべきかを診断します。",
+          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
       },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: Index,
