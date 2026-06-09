@@ -778,7 +778,7 @@ function ExamCard({
     <div className={`relative rounded-2xl border-2 p-4 ${cls}`}>
       {isFastest && (
         <span className="absolute -top-2 right-3 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground shadow">
-          最速
+          Nhanh nhất
         </span>
       )}
       <div className={`text-xs font-bold uppercase tracking-wider ${accent}`}>
@@ -786,10 +786,10 @@ function ExamCard({
       </div>
       <div className="mt-1 text-sm font-semibold">{target}</div>
       <div className="mt-3 text-[11px] font-medium text-muted-foreground">
-        次に受験できる最速月
+        Tháng thi sớm nhất có thể tham gia
       </div>
       <div className={`mt-0.5 text-xl font-bold ${accent}`}>
-        {next ?? "機会なし"}
+        {next ?? "Không có cơ hội"}
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
         {desc}
