@@ -635,6 +635,7 @@ function Result({
 function useDummy() {
   return null as null | {
     goal: Goal;
+    level: SchoolLevel | ThptLevel | "";
     targetDate: Date;
     targetLabel: string;
     remaining: number;
