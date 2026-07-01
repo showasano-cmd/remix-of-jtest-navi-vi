@@ -443,25 +443,40 @@ function GoalCard({
   title,
   badge,
   desc,
+  featured,
+  featuredLabel,
+  secondary,
 }: {
   active: boolean;
   onClick: () => void;
   title: string;
   badge: string;
   desc: string;
+  featured?: boolean;
+  featuredLabel?: string;
+  secondary?: boolean;
 }) {
   return (
     <button
       onClick={onClick}
-      className={`rounded-2xl border p-5 text-left shadow-sm transition-all ${
+      className={`relative rounded-2xl border text-left shadow-sm transition-all ${
+        featured ? "p-5 border-2" : secondary ? "p-4" : "p-5"
+      } ${
         active
           ? "border-primary bg-primary-soft ring-2 ring-primary/30"
+          : featured
+          ? "border-primary/50 bg-primary-soft/40 hover:border-primary"
           : "border-border bg-card hover:border-primary/40"
       }`}
     >
+      {featured && featuredLabel && (
+        <span className="absolute -top-2.5 left-4 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold text-primary-foreground shadow">
+          {featuredLabel}
+        </span>
+      )}
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-base font-bold">{title}</div>
+          <div className={`font-bold ${featured ? "text-lg" : secondary ? "text-sm" : "text-base"}`}>{title}</div>
           <div className="mt-1 inline-block rounded-full bg-background px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
             {badge}
           </div>
@@ -472,7 +487,7 @@ function GoalCard({
           }`}
         />
       </div>
-      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{desc}</p>
+      <p className={`mt-3 leading-relaxed text-muted-foreground ${secondary ? "text-[11px]" : "text-xs"}`}>{desc}</p>
     </button>
   );
 }
