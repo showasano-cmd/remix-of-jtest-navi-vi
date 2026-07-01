@@ -572,25 +572,29 @@ function Result({
     timeline.push({ date: fmtYM(result.targetDate), text: "Kỳ thi THPT" });
   }
 
-  const actions: string[] = isSchool
-    ? [
-        "Trước tiên, xác nhận trình độ tiếng Nhật hiện tại qua PreCheck",
-        result.fastest === "JTEST"
-          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ F（${result.jtestNext?.label}）ngay bây giờ`
-          : result.fastest === "JLPT"
-          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N5（${result.jlptNext?.label}）ngay bây giờ`
-          : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ",
-        "Xác nhận lịch đăng ký với trường mong muốn và chuẩn bị hồ sơ cần thiết sớm",
-      ]
-    : [
-        "Trước tiên, xác nhận trình độ hiện tại qua PreCheck và lập kế hoạch học đến Cấp độ D/N3",
-        result.fastest === "JTEST"
-          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ D（${result.jtestNext?.label}）ngay bây giờ`
-          : result.fastest === "JLPT"
-          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N3（${result.jlptNext?.label}）ngay bây giờ`
-          : "Xem xét lại thời điểm bắt đầu học và năm mục tiêu",
-        "J.TEST Cấp độ D có thể dùng làm điều kiện miễn thi môn Ngoại ngữ THPT",
-      ];
+  const fastestExamLabel = fastestExam?.label ?? null;
+  const jtestLevelName = isSchool ? "Cấp độ F" : "Cấp độ D";
+  const jlptLevelName = isSchool ? "N5" : "N3";
+  const step3Text =
+    result.fastest === "JTEST"
+      ? `Hoàn tất đăng ký kỳ thi J.TEST ${jtestLevelName}${fastestExamLabel ? `（${fastestExamLabel}）` : ""} phù hợp trước hạn`
+      : result.fastest === "JLPT"
+      ? `Hoàn tất đăng ký kỳ thi JLPT ${jlptLevelName}${fastestExamLabel ? `（${fastestExamLabel}）` : ""} phù hợp trước hạn`
+      : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ";
+
+  const conclusionTitle =
+    result.status === "ok"
+      ? "Có thể kịp nếu bắt đầu ngay"
+      : result.status === "warn"
+      ? "Có thể kịp — cần hành động ngay"
+      : "Khó kịp — cần điều chỉnh kế hoạch";
+
+  const conclusionSub =
+    result.fastest === "JTEST"
+      ? `Lộ trình nhanh nhất hiện tại là thi J.TEST ${jtestLevelName} vào ${result.jtestNext?.label}.`
+      : result.fastest === "JLPT"
+      ? `Lộ trình nhanh nhất hiện tại là thi JLPT ${jlptLevelName} vào ${result.jlptNext?.label}.`
+      : "Không còn cơ hội thi kịp trước thời hạn. Hãy cân nhắc dời mục tiêu.";
 
   return (
     <div>
