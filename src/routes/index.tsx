@@ -377,7 +377,7 @@ function Index() {
               }}
               className="w-full rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-primary-foreground shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Kiểm tra ngay
+              Xem lộ trình của tôi
             </button>
           </>
         )}
