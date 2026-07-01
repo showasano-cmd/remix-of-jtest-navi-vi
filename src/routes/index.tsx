@@ -4,19 +4,20 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "J.TEST - Định Hướng Mục Tiêu" },
+      { title: "Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không? | J.TEST Navi" },
       {
         name: "description",
         content:
-          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
+          "Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây. Miễn phí, chỉ 2 câu hỏi, không cần đăng ký.",
       },
-      { property: "og:title", content: "J.TEST - Định Hướng Mục Tiêu" },
+      { property: "og:title", content: "Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không?" },
       {
         property: "og:description",
         content:
-          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
+          "Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -214,28 +215,50 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto w-full max-w-xl px-4 pb-16 pt-8 sm:pt-12">
+      <main className={`mx-auto w-full max-w-xl px-4 pt-8 sm:pt-12 ${showResult ? "pb-32" : "pb-16"}`}>
         {/* HERO */}
-        <header className="mb-8">
+        <header className="mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             J.TEST VIETNAM
           </div>
-          <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            J.TEST<br />Định Hướng Mục Tiêu
+          <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl">
+            Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không?
           </h1>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-            Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.
+            Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây.
           </p>
-          <div className="mt-4 rounded-xl border border-primary/20 bg-primary-soft/60 p-4">
-            <p className="text-sm font-semibold text-primary">
-              J.TEST có thể thi 6 lần/năm（tổ chức vào các tháng lẻ）
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              Tổ chức vào tháng 1・3・5・7・9・11. So với JLPT chỉ 2 lần/năm, J.TEST có nhiều cơ hội lấy chứng chỉ hơn và có thể là lộ trình ngắn nhất đến mục tiêu của bạn.
-            </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {["Miễn phí", "Chỉ 2 câu hỏi", "Không cần đăng ký"].map((b) => (
+              <span
+                key={b}
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary-soft/70 px-3 py-1 text-[11px] font-semibold text-primary"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                {b}
+              </span>
+            ))}
           </div>
         </header>
+
+        {!showResult && (
+          <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 className="text-sm font-bold">Kết quả bạn sẽ nhận được</h2>
+            <ul className="mt-3 space-y-2.5 text-sm">
+              {[
+                { i: "📅", t: "Còn bao nhiêu tháng đến ngày nhập học" },
+                { i: "🎯", t: "Cơ hội thi J.TEST và JLPT còn lại" },
+                { i: "🚀", t: "Lộ trình nhanh nhất để lấy chứng chỉ" },
+                { i: "✅", t: "Việc cần làm ngay: Navi → PreCheck → Thi J.TEST" },
+              ].map((it) => (
+                <li key={it.t} className="flex items-start gap-3">
+                  <span className="text-base leading-6">{it.i}</span>
+                  <span className="leading-relaxed">{it.t}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {!showResult && (
           <>
@@ -251,6 +274,8 @@ function Index() {
                   title="Du học Trường Nhật ngữ"
                   badge="J.TEST Cấp độ F / JLPT N5"
                   desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
+                  featured
+                  featuredLabel="Phù hợp cho nhập học 4/2027"
                 />
                 <GoalCard
                   active={goal === "thpt"}
@@ -258,6 +283,7 @@ function Index() {
                   title="Miễn thi môn Ngoại ngữ THPT"
                   badge="J.TEST Cấp độ D / JLPT N3"
                   desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
+                  secondary
                 />
               </div>
             </section>
@@ -352,7 +378,7 @@ function Index() {
               }}
               className="w-full rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-primary-foreground shadow-sm transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Kiểm tra ngay
+              Xem lộ trình của tôi
             </button>
           </>
         )}
@@ -418,25 +444,40 @@ function GoalCard({
   title,
   badge,
   desc,
+  featured,
+  featuredLabel,
+  secondary,
 }: {
   active: boolean;
   onClick: () => void;
   title: string;
   badge: string;
   desc: string;
+  featured?: boolean;
+  featuredLabel?: string;
+  secondary?: boolean;
 }) {
   return (
     <button
       onClick={onClick}
-      className={`rounded-2xl border p-5 text-left shadow-sm transition-all ${
+      className={`relative rounded-2xl border text-left shadow-sm transition-all ${
+        featured ? "p-5 border-2" : secondary ? "p-4" : "p-5"
+      } ${
         active
           ? "border-primary bg-primary-soft ring-2 ring-primary/30"
+          : featured
+          ? "border-primary/50 bg-primary-soft/40 hover:border-primary"
           : "border-border bg-card hover:border-primary/40"
       }`}
     >
+      {featured && featuredLabel && (
+        <span className="absolute -top-2.5 left-4 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-bold text-primary-foreground shadow">
+          {featuredLabel}
+        </span>
+      )}
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-base font-bold">{title}</div>
+          <div className={`font-bold ${featured ? "text-lg" : secondary ? "text-sm" : "text-base"}`}>{title}</div>
           <div className="mt-1 inline-block rounded-full bg-background px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
             {badge}
           </div>
@@ -447,7 +488,7 @@ function GoalCard({
           }`}
         />
       </div>
-      <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{desc}</p>
+      <p className={`mt-3 leading-relaxed text-muted-foreground ${secondary ? "text-[11px]" : "text-xs"}`}>{desc}</p>
     </button>
   );
 }
@@ -532,25 +573,29 @@ function Result({
     timeline.push({ date: fmtYM(result.targetDate), text: "Kỳ thi THPT" });
   }
 
-  const actions: string[] = isSchool
-    ? [
-        "Trước tiên, xác nhận trình độ tiếng Nhật hiện tại qua PreCheck",
-        result.fastest === "JTEST"
-          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ F（${result.jtestNext?.label}）ngay bây giờ`
-          : result.fastest === "JLPT"
-          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N5（${result.jlptNext?.label}）ngay bây giờ`
-          : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ",
-        "Xác nhận lịch đăng ký với trường mong muốn và chuẩn bị hồ sơ cần thiết sớm",
-      ]
-    : [
-        "Trước tiên, xác nhận trình độ hiện tại qua PreCheck và lập kế hoạch học đến Cấp độ D/N3",
-        result.fastest === "JTEST"
-          ? `Lộ trình nhanh nhất: Đăng ký thi J.TEST Cấp độ D（${result.jtestNext?.label}）ngay bây giờ`
-          : result.fastest === "JLPT"
-          ? `Lộ trình nhanh nhất: Đăng ký thi JLPT N3（${result.jlptNext?.label}）ngay bây giờ`
-          : "Xem xét lại thời điểm bắt đầu học và năm mục tiêu",
-        "J.TEST Cấp độ D có thể dùng làm điều kiện miễn thi môn Ngoại ngữ THPT",
-      ];
+  const fastestExamLabel = fastestExam?.label ?? null;
+  const jtestLevelName = isSchool ? "Cấp độ F" : "Cấp độ D";
+  const jlptLevelName = isSchool ? "N5" : "N3";
+  const step3Text =
+    result.fastest === "JTEST"
+      ? `Hoàn tất đăng ký kỳ thi J.TEST ${jtestLevelName}${fastestExamLabel ? `（${fastestExamLabel}）` : ""} phù hợp trước hạn`
+      : result.fastest === "JLPT"
+      ? `Hoàn tất đăng ký kỳ thi JLPT ${jlptLevelName}${fastestExamLabel ? `（${fastestExamLabel}）` : ""} phù hợp trước hạn`
+      : "Cân nhắc dời thời hạn mục tiêu lùi lại một chu kỳ";
+
+  const conclusionTitle =
+    result.status === "ok"
+      ? "Có thể kịp nếu bắt đầu ngay"
+      : result.status === "warn"
+      ? "Có thể kịp — cần hành động ngay"
+      : "Khó kịp — cần điều chỉnh kế hoạch";
+
+  const conclusionSub =
+    result.fastest === "JTEST"
+      ? `Lộ trình nhanh nhất hiện tại là thi J.TEST ${jtestLevelName} vào ${result.jtestNext?.label}.`
+      : result.fastest === "JLPT"
+      ? `Lộ trình nhanh nhất hiện tại là thi JLPT ${jlptLevelName} vào ${result.jlptNext?.label}.`
+      : "Không còn cơ hội thi kịp trước thời hạn. Hãy cân nhắc dời mục tiêu.";
 
   return (
     <div>
@@ -567,6 +612,15 @@ function Result({
         >
           Làm lại
         </button>
+      </div>
+
+      {/* Conclusion card */}
+      <div className={`mb-6 rounded-2xl border-2 p-5 shadow-sm ${statusColor}`}>
+        <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">
+          Kết luận
+        </div>
+        <div className="mt-1 text-lg font-bold leading-snug">{conclusionTitle}</div>
+        <p className="mt-2 text-sm leading-relaxed opacity-90">{conclusionSub}</p>
       </div>
 
       {/* 01 現在地と残り期間 */}
@@ -647,33 +701,57 @@ function Result({
 
       {/* 05 アクション */}
       <Section num="05" title="Hành động cần thực hiện ngay">
-        <ul className="space-y-2">
-          {actions.map((a, i) => (
-            <li
-              key={i}
-              className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm"
-            >
+        <ol className="space-y-2.5">
+          <li className="rounded-xl border border-border bg-card p-4 text-sm">
+            <div className="flex gap-3">
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                {i + 1}
+                1
               </span>
               <div className="flex flex-1 flex-col items-start leading-relaxed">
-                <span>{a}</span>
-                {i === 0 && (
-                  <a
-                    href={precheckUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center justify-between gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
-                  >
-                    <span>Làm PreCheck ngay</span>
-                    <span aria-hidden>→</span>
-                  </a>
-                )}
+                <span className="font-medium">Làm PreCheck miễn phí để xác nhận trình độ hiện tại</span>
+                <a
+                  href={precheckUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
+                >
+                  <span>Làm PreCheck ngay</span>
+                  <span aria-hidden>→</span>
+                </a>
               </div>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </li>
+          <li className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              2
+            </span>
+            <span className="flex-1 leading-relaxed">
+              Nếu cần báo cáo chi tiết, tham gia FGPS để biết điểm yếu cần ôn tập
+            </span>
+          </li>
+          <li className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              3
+            </span>
+            <span className="flex-1 leading-relaxed">{step3Text}</span>
+          </li>
+        </ol>
       </Section>
+
+      {/* Sticky bottom CTA */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="mx-auto w-full max-w-xl px-4 py-3">
+          <a
+            href={precheckUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-bold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
+          >
+            Làm PreCheck miễn phí
+            <span aria-hidden>→</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
@@ -788,7 +866,7 @@ function ExamCard({
       <div className="mt-3 text-[11px] font-medium text-muted-foreground">
         Tháng thi sớm nhất có thể tham gia
       </div>
-      <div className={`mt-0.5 text-xl font-bold ${accent}`}>
+      <div className={`mt-0.5 text-2xl sm:text-3xl font-extrabold tracking-tight ${accent}`}>
         {next ?? "Không có cơ hội"}
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
