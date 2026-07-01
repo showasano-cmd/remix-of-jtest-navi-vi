@@ -4,19 +4,20 @@ import { useMemo, useState } from "react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "J.TEST - Định Hướng Mục Tiêu" },
+      { title: "Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không? | J.TEST Navi" },
       {
         name: "description",
         content:
-          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
+          "Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây. Miễn phí, chỉ 2 câu hỏi, không cần đăng ký.",
       },
-      { property: "og:title", content: "J.TEST - Định Hướng Mục Tiêu" },
+      { property: "og:title", content: "Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không?" },
       {
         property: "og:description",
         content:
-          "Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.",
+          "Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây.",
       },
       { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
