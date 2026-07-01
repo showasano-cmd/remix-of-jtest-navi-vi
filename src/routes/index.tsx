@@ -273,6 +273,8 @@ function Index() {
                   title="Du học Trường Nhật ngữ"
                   badge="J.TEST Cấp độ F / JLPT N5"
                   desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
+                  featured
+                  featuredLabel="Phù hợp cho nhập học 4/2027"
                 />
                 <GoalCard
                   active={goal === "thpt"}
@@ -280,6 +282,7 @@ function Index() {
                   title="Miễn thi môn Ngoại ngữ THPT"
                   badge="J.TEST Cấp độ D / JLPT N3"
                   desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
+                  secondary
                 />
               </div>
             </section>
