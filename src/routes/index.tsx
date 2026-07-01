@@ -216,26 +216,48 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <main className="mx-auto w-full max-w-xl px-4 pb-16 pt-8 sm:pt-12">
         {/* HERO */}
-        <header className="mb-8">
+        <header className="mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
             <span className="h-1.5 w-1.5 rounded-full bg-primary" />
             J.TEST VIETNAM
           </div>
-          <h1 className="mt-3 text-3xl font-bold leading-tight sm:text-4xl">
-            J.TEST<br />Định Hướng Mục Tiêu
+          <h1 className="mt-3 text-2xl font-bold leading-tight sm:text-3xl">
+            Bạn có kịp nhập học Trường Nhật ngữ tháng 4/2027 không?
           </h1>
           <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-            Công cụ đánh giá thời điểm và kỳ thi tối ưu để đạt chứng chỉ tiếng Nhật cho Du học hoặc Miễn thi môn Ngoại ngữ THPT.
+            Kiểm tra lộ trình thi J.TEST / JLPT phù hợp trong khoảng 30 giây.
           </p>
-          <div className="mt-4 rounded-xl border border-primary/20 bg-primary-soft/60 p-4">
-            <p className="text-sm font-semibold text-primary">
-              J.TEST có thể thi 6 lần/năm（tổ chức vào các tháng lẻ）
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              Tổ chức vào tháng 1・3・5・7・9・11. So với JLPT chỉ 2 lần/năm, J.TEST có nhiều cơ hội lấy chứng chỉ hơn và có thể là lộ trình ngắn nhất đến mục tiêu của bạn.
-            </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {["Miễn phí", "Chỉ 2 câu hỏi", "Không cần đăng ký"].map((b) => (
+              <span
+                key={b}
+                className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary-soft/70 px-3 py-1 text-[11px] font-semibold text-primary"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                {b}
+              </span>
+            ))}
           </div>
         </header>
+
+        {!showResult && (
+          <section className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-sm">
+            <h2 className="text-sm font-bold">Kết quả bạn sẽ nhận được</h2>
+            <ul className="mt-3 space-y-2.5 text-sm">
+              {[
+                { i: "📅", t: "Còn bao nhiêu tháng đến ngày nhập học" },
+                { i: "🎯", t: "Cơ hội thi J.TEST và JLPT còn lại" },
+                { i: "🚀", t: "Lộ trình nhanh nhất để lấy chứng chỉ" },
+                { i: "✅", t: "Việc cần làm ngay: Navi → PreCheck → Thi J.TEST" },
+              ].map((it) => (
+                <li key={it.t} className="flex items-start gap-3">
+                  <span className="text-base leading-6">{it.i}</span>
+                  <span className="leading-relaxed">{it.t}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {!showResult && (
           <>
