@@ -691,33 +691,57 @@ function Result({
 
       {/* 05 アクション */}
       <Section num="05" title="Hành động cần thực hiện ngay">
-        <ul className="space-y-2">
-          {actions.map((a, i) => (
-            <li
-              key={i}
-              className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm"
-            >
+        <ol className="space-y-2.5">
+          <li className="rounded-xl border border-border bg-card p-4 text-sm">
+            <div className="flex gap-3">
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                {i + 1}
+                1
               </span>
               <div className="flex flex-1 flex-col items-start leading-relaxed">
-                <span>{a}</span>
-                {i === 0 && (
-                  <a
-                    href={precheckUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center justify-between gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
-                  >
-                    <span>Làm PreCheck ngay</span>
-                    <span aria-hidden>→</span>
-                  </a>
-                )}
+                <span className="font-medium">Làm PreCheck miễn phí để xác nhận trình độ hiện tại</span>
+                <a
+                  href={precheckUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
+                >
+                  <span>Làm PreCheck ngay</span>
+                  <span aria-hidden>→</span>
+                </a>
               </div>
-            </li>
-          ))}
-        </ul>
+            </div>
+          </li>
+          <li className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              2
+            </span>
+            <span className="flex-1 leading-relaxed">
+              Nếu cần báo cáo chi tiết, tham gia FGPS để biết điểm yếu cần ôn tập
+            </span>
+          </li>
+          <li className="flex gap-3 rounded-xl border border-border bg-card p-4 text-sm">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+              3
+            </span>
+            <span className="flex-1 leading-relaxed">{step3Text}</span>
+          </li>
+        </ol>
       </Section>
+
+      {/* Sticky bottom CTA */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+        <div className="mx-auto w-full max-w-xl px-4 py-3">
+          <a
+            href={precheckUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-bold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
+          >
+            Làm PreCheck miễn phí
+            <span aria-hidden>→</span>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
