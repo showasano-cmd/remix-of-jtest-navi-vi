@@ -214,7 +214,7 @@ function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <main className="mx-auto w-full max-w-xl px-4 pb-16 pt-8 sm:pt-12">
+      <main className={`mx-auto w-full max-w-xl px-4 pt-8 sm:pt-12 ${showResult ? "pb-32" : "pb-16"}`}>
         {/* HERO */}
         <header className="mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-medium text-primary">
