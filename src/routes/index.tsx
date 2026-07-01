@@ -613,6 +613,15 @@ function Result({
         </button>
       </div>
 
+      {/* Conclusion card */}
+      <div className={`mb-6 rounded-2xl border-2 p-5 shadow-sm ${statusColor}`}>
+        <div className="text-[10px] font-bold uppercase tracking-widest opacity-80">
+          Kết luận
+        </div>
+        <div className="mt-1 text-lg font-bold leading-snug">{conclusionTitle}</div>
+        <p className="mt-2 text-sm leading-relaxed opacity-90">{conclusionSub}</p>
+      </div>
+
       {/* 01 現在地と残り期間 */}
       <Section num="01" title="Trình độ hiện tại và thời gian còn lại">
         <div className="grid grid-cols-3 gap-2">
