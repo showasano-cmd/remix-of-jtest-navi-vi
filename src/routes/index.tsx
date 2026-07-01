@@ -865,7 +865,7 @@ function ExamCard({
       <div className="mt-3 text-[11px] font-medium text-muted-foreground">
         Tháng thi sớm nhất có thể tham gia
       </div>
-      <div className={`mt-0.5 text-xl font-bold ${accent}`}>
+      <div className={`mt-0.5 text-2xl sm:text-3xl font-extrabold tracking-tight ${accent}`}>
         {next ?? "Không có cơ hội"}
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
