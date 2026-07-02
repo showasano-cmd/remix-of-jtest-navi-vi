@@ -757,6 +757,7 @@ function Result({
                   href={precheckUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={onPrecheckClick}
                   className="mt-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
                 >
                   <span>Làm PreCheck ngay</span>
