@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -203,6 +204,31 @@ function Index() {
     }
   }, [showResult, canDiagnose, goal, schoolMonth, schoolLevel, thptYear, thptLevel, now]);
 
+  // Fire diagnosis_completed once when the result screen is rendered with a valid result.
+  useEffect(() => {
+    if (!showResult || !result) return;
+    const params: Record<string, unknown> = {
+      app_name: "jtest_navi",
+      goal: result.goal,
+      current_level: result.goal === "school" ? schoolLevel : thptLevel,
+      target_date: result.goal === "school" ? schoolMonth : thptYear,
+      result_status: result.status,
+      remaining_months: result.remaining,
+    };
+    if (result.fastest) {
+      const fastestExam = result.fastest === "JTEST" ? result.jtestNext : result.jlptNext;
+      params.recommended_exam = result.fastest === "JTEST" ? "jtest" : "jlpt";
+      if (fastestExam) {
+        const d = fastestExam.date;
+        params.recommended_exam_month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      }
+    }
+    trackEvent("diagnosis_completed", params);
+    // Intentionally keyed on showResult+result identity so it fires once per completed diagnosis.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showResult, result]);
+
+
   const reset = () => {
     setShowResult(false);
     setGoal(null);
@@ -270,7 +296,10 @@ function Index() {
               <div className="grid gap-3">
                 <GoalCard
                   active={goal === "school"}
-                  onClick={() => setGoal("school")}
+                  onClick={() => {
+                    setGoal("school");
+                    trackEvent("goal_selected", { app_name: "jtest_navi", goal: "school" });
+                  }}
                   title="Du học Trường Nhật ngữ"
                   badge="J.TEST Cấp độ F / JLPT N5"
                   desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
@@ -279,7 +308,10 @@ function Index() {
                 />
                 <GoalCard
                   active={goal === "thpt"}
-                  onClick={() => setGoal("thpt")}
+                  onClick={() => {
+                    setGoal("thpt");
+                    trackEvent("goal_selected", { app_name: "jtest_navi", goal: "thpt" });
+                  }}
                   title="Miễn thi môn Ngoại ngữ THPT"
                   badge="J.TEST Cấp độ D / JLPT N3"
                   desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
@@ -524,6 +556,18 @@ function Result({
     isSchool || result.level === "n5" || result.level === "below"
       ? "https://precheck-fg-01.lovable.app/"
       : "https://precheck-de-01.lovable.app/";
+  const precheckDestination = precheckUrl.includes("precheck-fg")
+    ? "precheck_fg"
+    : "precheck_de";
+  const onPrecheckClick = () => {
+    trackEvent("precheck_clicked", {
+      app_name: "jtest_navi",
+      goal: result.goal,
+      destination: precheckDestination,
+      link_url: precheckUrl,
+    });
+  };
+
 
   const statusColor =
     result.status === "ok"
@@ -713,6 +757,7 @@ function Result({
                   href={precheckUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={onPrecheckClick}
                   className="mt-2 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-opacity hover:opacity-90"
                 >
                   <span>Làm PreCheck ngay</span>
@@ -745,6 +790,7 @@ function Result({
             href={precheckUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={onPrecheckClick}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-bold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
           >
             Làm PreCheck miễn phí
