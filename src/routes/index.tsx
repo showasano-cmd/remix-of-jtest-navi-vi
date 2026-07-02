@@ -283,7 +283,10 @@ function Index() {
                 />
                 <GoalCard
                   active={goal === "thpt"}
-                  onClick={() => setGoal("thpt")}
+                  onClick={() => {
+                    setGoal("thpt");
+                    trackEvent("goal_selected", { app_name: "jtest_navi", goal: "thpt" });
+                  }}
                   title="Miễn thi môn Ngoại ngữ THPT"
                   badge="J.TEST Cấp độ D / JLPT N3"
                   desc="Đánh giá khả năng đáp ứng điều kiện miễn thi trước năm thi THPT"
