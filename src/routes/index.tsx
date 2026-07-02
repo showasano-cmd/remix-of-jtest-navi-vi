@@ -207,7 +207,8 @@ function Index() {
 
   // Fire diagnosis_completed once when the result screen is rendered with a valid result.
   useEffect(() => {
-    if (!showResult || !result) return;
+    if (!showResult || !result || diagnosisTrackedRef.current) return;
+    diagnosisTrackedRef.current = true;
     const params: Record<string, unknown> = {
       app_name: "jtest_navi",
       goal: result.goal,
