@@ -556,6 +556,18 @@ function Result({
     isSchool || result.level === "n5" || result.level === "below"
       ? "https://precheck-fg-01.lovable.app/"
       : "https://precheck-de-01.lovable.app/";
+  const precheckDestination = precheckUrl.includes("precheck-fg")
+    ? "precheck_fg"
+    : "precheck_de";
+  const onPrecheckClick = () => {
+    trackEvent("precheck_clicked", {
+      app_name: "jtest_navi",
+      goal: result.goal,
+      destination: precheckDestination,
+      link_url: precheckUrl,
+    });
+  };
+
 
   const statusColor =
     result.status === "ok"
