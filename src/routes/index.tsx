@@ -232,6 +232,7 @@ function Index() {
 
 
   const reset = () => {
+    diagnosisTrackedRef.current = false;
     setShowResult(false);
     setGoal(null);
     setSchoolMonth("");
