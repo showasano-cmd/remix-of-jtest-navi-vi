@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
@@ -80,6 +80,7 @@ function Index() {
   const [thptYear, setThptYear] = useState<string>("");
   const [thptLevel, setThptLevel] = useState<ThptLevel | "">("");
   const [showResult, setShowResult] = useState(false);
+  const diagnosisTrackedRef = useRef(false);
 
   const now = useMemo(() => new Date(), []);
 
@@ -206,7 +207,8 @@ function Index() {
 
   // Fire diagnosis_completed once when the result screen is rendered with a valid result.
   useEffect(() => {
-    if (!showResult || !result) return;
+    if (!showResult || !result || diagnosisTrackedRef.current) return;
+    diagnosisTrackedRef.current = true;
     const params: Record<string, unknown> = {
       app_name: "jtest_navi",
       goal: result.goal,
@@ -230,6 +232,7 @@ function Index() {
 
 
   const reset = () => {
+    diagnosisTrackedRef.current = false;
     setShowResult(false);
     setGoal(null);
     setSchoolMonth("");
