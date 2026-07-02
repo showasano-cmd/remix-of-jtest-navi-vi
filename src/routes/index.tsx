@@ -204,6 +204,31 @@ function Index() {
     }
   }, [showResult, canDiagnose, goal, schoolMonth, schoolLevel, thptYear, thptLevel, now]);
 
+  // Fire diagnosis_completed once when the result screen is rendered with a valid result.
+  useEffect(() => {
+    if (!showResult || !result) return;
+    const params: Record<string, unknown> = {
+      app_name: "jtest_navi",
+      goal: result.goal,
+      current_level: result.goal === "school" ? schoolLevel : thptLevel,
+      target_date: result.goal === "school" ? schoolMonth : thptYear,
+      result_status: result.status,
+      remaining_months: result.remaining,
+    };
+    if (result.fastest) {
+      const fastestExam = result.fastest === "JTEST" ? result.jtestNext : result.jlptNext;
+      params.recommended_exam = result.fastest === "JTEST" ? "jtest" : "jlpt";
+      if (fastestExam) {
+        const d = fastestExam.date;
+        params.recommended_exam_month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      }
+    }
+    trackEvent("diagnosis_completed", params);
+    // Intentionally keyed on showResult+result identity so it fires once per completed diagnosis.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showResult, result]);
+
+
   const reset = () => {
     setShowResult(false);
     setGoal(null);
