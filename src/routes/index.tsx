@@ -80,6 +80,7 @@ function Index() {
   const [thptYear, setThptYear] = useState<string>("");
   const [thptLevel, setThptLevel] = useState<ThptLevel | "">("");
   const [showResult, setShowResult] = useState(false);
+  const diagnosisTrackedRef = useRef(false);
 
   const now = useMemo(() => new Date(), []);
 
