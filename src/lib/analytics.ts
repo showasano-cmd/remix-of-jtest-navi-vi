@@ -35,3 +35,17 @@ export function trackPageView(path: string): void {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", "page_view", { page_path: path });
 }
+
+// Generic custom-event helper. Fails silently if gtag is unavailable
+// (SSR, ad blockers, network issues) so callers never break.
+export function trackEvent(
+  eventName: string,
+  params?: Record<string, unknown>,
+): void {
+  try {
+    if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+    window.gtag("event", eventName, params ?? {});
+  } catch {
+    // no-op
+  }
+}
