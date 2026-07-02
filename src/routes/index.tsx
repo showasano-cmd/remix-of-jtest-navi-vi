@@ -271,7 +271,10 @@ function Index() {
               <div className="grid gap-3">
                 <GoalCard
                   active={goal === "school"}
-                  onClick={() => setGoal("school")}
+                  onClick={() => {
+                    setGoal("school");
+                    trackEvent("goal_selected", { app_name: "jtest_navi", goal: "school" });
+                  }}
                   title="Du học Trường Nhật ngữ"
                   badge="J.TEST Cấp độ F / JLPT N5"
                   desc="Đánh giá khả năng đạt chứng chỉ tiếng Nhật trước tháng nhập học mong muốn"
