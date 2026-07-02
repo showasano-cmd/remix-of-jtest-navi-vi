@@ -790,6 +790,7 @@ function Result({
             href={precheckUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={onPrecheckClick}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-base font-bold text-primary-foreground shadow-lg transition-opacity hover:opacity-90"
           >
             Làm PreCheck miễn phí
