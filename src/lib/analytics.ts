@@ -12,10 +12,17 @@ declare global {
 
 let initialized = false;
 
+function isGADebugMode(): boolean {
+  if (typeof window === "undefined" || !window.location) return false;
+  return new URLSearchParams(window.location.search).get("debug_ga4") === "1";
+}
+
 export function initGA(): void {
   if (initialized) return;
   if (typeof window === "undefined" || typeof document === "undefined") return;
   initialized = true;
+
+  const debugMode = isGADebugMode();
 
   const script = document.createElement("script");
   script.async = true;
@@ -28,12 +35,13 @@ export function initGA(): void {
     window.dataLayer.push(arguments);
   };
   window.gtag("js", new Date());
-  window.gtag("config", GA_MEASUREMENT_ID);
+  window.gtag("config", GA_MEASUREMENT_ID, debugMode ? { debug_mode: true } : undefined);
 }
 
 export function trackPageView(path: string): void {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", "page_view", { page_path: path });
+  const debugMode = isGADebugMode();
+  window.gtag("event", "page_view", { page_path: path, ...(debugMode ? { debug_mode: true } : {}) });
 }
 
 // Generic custom-event helper. Fails silently if gtag is unavailable
@@ -44,8 +52,10 @@ export function trackEvent(
 ): void {
   try {
     if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-    window.gtag("event", eventName, params ?? {});
+    const debugMode = isGADebugMode();
+    window.gtag("event", eventName, { ...(params ?? {}), ...(debugMode ? { debug_mode: true } : {}) });
   } catch {
     // no-op
   }
 }
+
