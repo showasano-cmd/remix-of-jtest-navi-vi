@@ -35,13 +35,21 @@ export function initGA(): void {
     window.dataLayer.push(arguments);
   };
   window.gtag("js", new Date());
-  window.gtag("config", GA_MEASUREMENT_ID, debugMode ? { debug_mode: true } : undefined);
+  window.gtag("config", GA_MEASUREMENT_ID, {
+    send_page_view: false,
+    ...(debugMode ? { debug_mode: true } : {}),
+  });
 }
 
 export function trackPageView(path: string): void {
   if (typeof window === "undefined" || typeof window.gtag !== "function") return;
   const debugMode = isGADebugMode();
-  window.gtag("event", "page_view", { page_path: path, ...(debugMode ? { debug_mode: true } : {}) });
+  window.gtag("event", "page_view", {
+    page_path: path,
+    page_location: typeof window !== "undefined" ? window.location.href : path,
+    page_title: typeof document !== "undefined" ? document.title : "",
+    ...(debugMode ? { debug_mode: true } : {}),
+  });
 }
 
 // Generic custom-event helper. Fails silently if gtag is unavailable
